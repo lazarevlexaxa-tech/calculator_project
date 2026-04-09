@@ -1,0 +1,20 @@
+---
+# Список проверок
+# bugprone - ищет ошибки в логике (например, забытый return)
+# clang-analyzer - глубокий анализ кода (утечки, деление на 0)
+# readability - заставляет писать "читаемый" код
+# cert - стандарты безопасного программирования
+Checks: 'bugprone-*,clang-analyzer-*,readability-*,cert-*'
+
+# Любое предупреждение = Ошибка (сборка упадет)
+WarningsAsErrors: '*'
+
+# Настройки для проверок
+CheckOptions:
+  # Проверка именования переменных (маленькими буквами через подчеркивание)
+  - key:             readability-identifier-naming.VariableCase
+    value:           lower_case
+  # Проверка именования функций (маленькими буквами через подчеркивание)
+  - key:             readability-identifier-naming.FunctionCase
+    value:           CamelCase
+---

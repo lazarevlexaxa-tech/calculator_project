@@ -1,0 +1,3 @@
+/home/alexey/calculator_project/calc_app/build/_deps/math_lib-subbuild/CMakeFiles/math_lib-populate.dir
+/home/alexey/calculator_project/calc_app/build/_deps/math_lib-subbuild/CMakeFiles/edit_cache.dir
+/home/alexey/calculator_project/calc_app/build/_deps/math_lib-subbuild/CMakeFiles/rebuild_cache.dir

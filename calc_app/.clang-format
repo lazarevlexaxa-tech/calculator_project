@@ -1,0 +1,11 @@
+---
+Language: Cpp
+BasedOnStyle: LLVM
+# Отступ 4 пробела
+IndentWidth: 4
+# Длина строки — максимум 80 символов
+ColumnLimit: 80
+AllowShortFunctionsOnASingleLine: None
+FixNamespaceComments: true
+---
+
