@@ -2,11 +2,6 @@
 #include <memory>
 #include <string>
 
-// Forward Declaration
-namespace spdlog {
-class logger;
-}
-
 class Logger {
   public:
     static Logger &getInstance() {
@@ -14,14 +9,12 @@ class Logger {
         return instance;
     }
 
-    // Удаляем возможность копирования Singleton
+    // Правило пяти
+    ~Logger();
     Logger(const Logger &) = delete;
     Logger &operator=(const Logger &) = delete;
-
     Logger(Logger &&) = delete;
     Logger &operator=(Logger &&) = delete;
-
-    ~Logger();
 
     void info(const std::string &message);
     void error(const std::string &message);
@@ -30,5 +23,8 @@ class Logger {
   private:
     Logger();
 
-    std::shared_ptr<spdlog::logger> m_logger;
+    // Используем Pimpl: создаем скрытую структуру,
+    // которая будет объявлена только в .cpp файле
+    struct Impl;
+    std::unique_ptr<Impl> m_pimpl;
 };
