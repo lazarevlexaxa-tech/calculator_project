@@ -1,27 +1,24 @@
 #pragma once
-#include <nlohmann/json.hpp>
 #include <string>
 
-// Структура для хранения распарсенных данных
+// Структура с понятными именами полей
 struct CalculationData {
     std::string operation;
-    int a;
-    int b;
-    int n; // для факториала, например
+    int first_number;  // Вместо a
+    int second_number; // Вместо b
+    int factorial_n;   // Вместо n (указываем конкретный смысл)
 };
 
 class Parser {
   public:
-    // Правило 5:
+    // Правило пяти
     Parser() = default;
     ~Parser() = default;
-
     Parser(const Parser &) = default;
     Parser &operator=(const Parser &) = default;
-
     Parser(Parser &&) noexcept = default;
     Parser &operator=(Parser &&) noexcept = default;
 
-    // Метод принимает сырую JSON-строку и возвращает структуру с данными
+    // Метод принимает строку. nlohmann/json будет только внутри .cpp
     CalculationData parse(const std::string &jsonInput);
 };
