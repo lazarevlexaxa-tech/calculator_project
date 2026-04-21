@@ -28,22 +28,7 @@ void Runner::run(int argc, char **argv) {
         CalculationData data = m_parser.parse(jsonInput);
         m_checker.check(data);
 
-        int result = 0;
-        // Теперь используем -> для m_calculator, так как это unique_ptr
-        if (data.operation == "add") {
-            result = m_calculator->add(data.first_number, data.second_number);
-        } else if (data.operation == "sub") {
-            result = m_calculator->sub(data.first_number, data.second_number);
-        } else if (data.operation == "mul") {
-            result = m_calculator->mul(data.first_number, data.second_number);
-        } else if (data.operation == "div") {
-            result = m_calculator->div(data.first_number, data.second_number);
-        } else if (data.operation == "pow") {
-            result = m_calculator->pow(data.first_number, data.second_number);
-        } else if (data.operation == "fact") {
-            result = m_calculator->fact(data.factorial_n);
-        }
-
+        int result = m_calculator->calculate(data);
         m_printer.print(data, result);
         logger.info("Application sequence finished successfully");
 
