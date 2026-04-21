@@ -1,15 +1,19 @@
 #pragma once
-#include "../../math_lib/include/Calculator.hpp"
+
 #include "Checker.hpp"
 #include "Parser.hpp"
 #include "Printer.hpp"
+#include <memory> // Нужно для unique_ptr
 #include <string>
+
+// ВМЕСТО инклюда пишем Forward Declaration:
+class Calculator;
 
 class Runner {
   public:
     // Правило 5:
-    Runner() = default;
-    ~Runner() = default;
+    Runner();
+    ~Runner();
 
     Runner(const Runner &) = default;
     Runner &operator=(const Runner &) = default;
@@ -24,6 +28,6 @@ class Runner {
     // Поля класса — компоненты системы
     Parser m_parser;
     Checker m_checker;
-    Calculator m_calculator;
+    std::unique_ptr<Calculator> m_calculator; // Теперь компилятор не ругается!
     Printer m_printer;
 };
