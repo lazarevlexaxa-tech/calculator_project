@@ -22,7 +22,7 @@ class Runner {
     Runner &operator=(Runner &&) noexcept = default;
 
     // Главный метод, который запускает весь цикл
-    void run(const std::string &jsonInput);
+    void run(int argc, char **argv);
 
   private:
     // Поля класса — компоненты системы

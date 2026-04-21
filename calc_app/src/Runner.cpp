@@ -11,9 +11,18 @@ Runner::Runner() : m_calculator(std::make_unique<Calculator>()) {
 // Деструктор определяем здесь, где компилятор уже видит полный Calculator
 Runner::~Runner() = default;
 
-void Runner::run(const std::string &jsonInput) {
+void Runner::run(int argc, char **argv) {
     auto &logger = Logger::getInstance();
     logger.info("Application sequence started");
+
+    if (argc != 2) {
+        logger.error("No input JSON provided in command line arguments");
+        throw std::runtime_error("Usage: calculator <json_string>");
+    }
+
+    std::string jsonInput = argv[1];
+
+    logger.info("Application sequence started with input: " + jsonInput);
 
     try {
         CalculationData data = m_parser.parse(jsonInput);
