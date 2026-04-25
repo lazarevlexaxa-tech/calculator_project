@@ -1,17 +1,11 @@
 #pragma once
 #include <string>
 
-// Структура с понятными именами полей
-struct CalculationData {
-    std::string operation;
-    int first_number;  // Вместо a
-    int second_number; // Вместо b
-    int factorial_n;   // Вместо n (указываем конкретный смысл)
-};
+// Подключаем внешнюю библиотеку
+#include <math_lib/Calculator.hpp>
 
 class Parser {
   public:
-    // Правило пяти
     Parser() = default;
     ~Parser() = default;
     Parser(const Parser &) = default;
@@ -19,6 +13,6 @@ class Parser {
     Parser(Parser &&) noexcept = default;
     Parser &operator=(Parser &&) noexcept = default;
 
-    // Метод принимает строку. nlohmann/json будет только внутри .cpp
+    // Добавляем префикс math_lib:: к возвращаемому типу
     CalculationData parse(const std::string &jsonInput);
 };

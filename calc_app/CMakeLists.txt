@@ -11,11 +11,10 @@ add_executable(calculator
 # Указываем путь к заголовкам приложения
 target_include_directories(calculator PRIVATE include)
 
-# Связываем приложение с нашей библиотекой и внешними зависимостями
+# Связываем приложение с нашей ВНЕШНЕЙ библиотекой и остальными зависимостями
 target_link_libraries(calculator
     PRIVATE
-        math_lib
+        math_lib::math_lib  # Изменено: теперь через пространство имен
         nlohmann_json::nlohmann_json
         spdlog::spdlog
 )
-

@@ -1,14 +1,12 @@
 #include "Runner.hpp"
-#include "../../math_lib/include/Calculator.hpp" // Добавляем инклюд здесь
 #include "Logger.hpp"
 #include <iostream>
+#include <math_lib/Calculator.hpp>
 #include <stdexcept>
 
-// Реализуем конструктор, создавая объект Calculator в куче
-Runner::Runner() : m_calculator(std::make_unique<Calculator>()) {
-}
+// В конструкторе добавляем math_lib:: к типу Calculator
+Runner::Runner() = default;
 
-// Деструктор определяем здесь, где компилятор уже видит полный Calculator
 Runner::~Runner() = default;
 
 void Runner::run(int argc, char **argv) {
@@ -28,7 +26,7 @@ void Runner::run(int argc, char **argv) {
         CalculationData data = m_parser.parse(jsonInput);
         m_checker.check(data);
 
-        int result = m_calculator->calculate(data);
+        int result = m_calculator.calculate(data);
         m_printer.print(data, result);
         logger.info("Application sequence finished successfully");
 

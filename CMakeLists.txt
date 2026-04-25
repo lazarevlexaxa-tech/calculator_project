@@ -10,8 +10,14 @@ find_package(spdlog REQUIRED)
 find_package(GTest REQUIRED)
 
 # 2. Подключаем наши модули
-# Сначала библиотеку, так как приложение от неё зависит
-add_subdirectory(math_lib)
+# Сначала библиотеки, так как приложение от неё зависит, также внешнюю библиотеку с мат. функциями
+include(FetchContent)
+FetchContent_Declare(
+  math_lib
+  GIT_REPOSITORY https://github.com/lazarevlexaxa-tech/math_lib.git
+  GIT_TAG        main
+)
+FetchContent_MakeAvailable(math_lib)
 add_subdirectory(calc_app)
 add_subdirectory(tests)
 

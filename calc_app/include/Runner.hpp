@@ -3,11 +3,13 @@
 #include "Checker.hpp"
 #include "Parser.hpp"
 #include "Printer.hpp"
-#include <memory> // Нужно для unique_ptr
+#include <math_lib/Calculator.hpp>
 #include <string>
 
 // ВМЕСТО инклюда пишем Forward Declaration:
+namespace math_lib {
 class Calculator;
+}
 
 class Runner {
   public:
@@ -25,9 +27,8 @@ class Runner {
     void run(int argc, char **argv);
 
   private:
-    // Поля класса — компоненты системы
     Parser m_parser;
     Checker m_checker;
-    std::unique_ptr<Calculator> m_calculator; // Теперь компилятор не ругается!
+    math_lib::Calculator m_calculator;
     Printer m_printer;
 };
