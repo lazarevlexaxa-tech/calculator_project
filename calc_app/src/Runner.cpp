@@ -37,40 +37,46 @@ void Runner::run(int argc, char **argv) {
 
     try {
         CalculationData data = m_parser.parse(jsonInput);
-        // 1. Получаем статус от чекера вместо падения по throw
+        // Получаем статус от чекера вместо падения по throw
         int status = m_checker.check(data);
 
         std::string key = make_cache_key(data);
         int result = 0;
 
-        // 2. Ищем в кэше. Если этот плохой пример уже вводили, execute вернет
-        // true
+        // 1. Ищем в кэше
         if (execute(data, key, result, status)) {
-            logger.info("Shortcut executed: operation is already known as "
-                        "invalid or cached.");
-            // Если сохраненный статус был ошибочным, можно вывести сообщение об
-            // ошибке
-            return;
+            logger.info("Result successfully taken from fast cache!");
+
+            // Если это была ранее сохраненная ОШИБКА (статус > 0)
+            if (status > 0) {
+                std::cerr << "[Error]: Operation cannot be executed due to "
+                             "validation code "
+                          << status << std::endl;
+                return; // Для реальной ошибки прерываемся штатно
+            }
+            // Если это УСПЕШНЫЙ пример из кэша, мы просто ИДЕМ ДАЛЬШЕ вниз, к
+            // принтеру
+        } else {
+            // 2. В кэше пусто — проверяем, нет ли ошибки валидации
+            if (status > 0) {
+                logger.error("Validation failed with code " +
+                             std::to_string(status) + ". Saving error...");
+                execute(data, key, result, status, true);
+                std::cerr << "[Error]: Operation cannot be executed due to "
+                             "validation code "
+                          << status << std::endl;
+                return;
+            }
+
+            // 3. Ошибок нет, в кэше пусто — выполняем реальный расчет
+            logger.info("Cache miss. Calculating via math_lib...");
+            result = m_calculator.calculate(data);
+
+            // Сохраняем свежий результат в RAM и БД
+            execute(data, key, result, 0, true);
         }
 
-        // 3. Если в кэше не нашли, смотрим на статус чекера
-        if (status > 0) {
-            logger.error("Validation failed with code " +
-                         std::to_string(status) + ". Saving error to cache...");
-            // Сохраняем ошибку в кэш и базу, чтобы больше не валидировать её в
-            // будущем
-            execute(data, key, result, status, true);
-            std::cerr << "[Error]: Operation cannot be executed due to "
-                         "validation code "
-                      << status << std::endl;
-            return;
-        }
-
-        // 4. Если статус 0 (все отлично) — считаем как обычно
-        result = m_calculator.calculate(data);
-        execute(data, key, result, 0, true); // Сохраняем успешный результат
-
-        m_printer.print(data, result);
+                m_printer.print(data, result);
         logger.info("Application sequence finished successfully");
 
     } catch (const std::exception &e) {
